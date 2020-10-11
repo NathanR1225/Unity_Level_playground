@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    public float CammmeraMoveSpeed = 120.0f;
+    public float CammmeraMoveSpeed = 220.0f;
     public GameObject CammerFollowObject;
     Vector3 FollowPos;
     public float clampAngle = 80.0f;
@@ -65,7 +65,7 @@ public class CameraFollow : MonoBehaviour
     {
         Transform target = CammerFollowObject.transform;
 
-        float step = CammmeraMoveSpeed = Time.deltaTime;
+        float step = CammmeraMoveSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 
     }
