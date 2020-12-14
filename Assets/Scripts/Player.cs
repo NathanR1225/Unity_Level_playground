@@ -9,9 +9,15 @@ public class Player : MonoBehaviour
     private float horizontalInput = 0;
     private float verticalInput = 0;
     private bool sprint = false;
+    Animator animator;
+    private int isWalkingHash;
+    private int isRunningHash;
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
         rigidbodyComponet = GetComponent<Rigidbody>();
     }
 
@@ -19,6 +25,24 @@ public class Player : MonoBehaviour
     void Update()
     {
         sprint = (Input.GetKey(KeyCode.LeftShift)|| Input.GetKey(KeyCode.RightShift));
+        bool forwardPressed = Input.GetKey("w");
+        bool isWalking = animator.GetBool(isWalkingHash);
+        bool isRunning = animator.GetBool(isRunningHash);
+        if (!isWalking  && forwardPressed)
+        {
+            animator.SetBool(isWalkingHash, true);
+        }else if (isWalking && !forwardPressed)
+        {
+            animator.SetBool(isWalkingHash, false);
+        }
+
+         if (!isRunning  && (forwardPressed && sprint))
+        { 
+            animator.SetBool(isRunningHash, true);
+        }else if (isRunning && (!forwardPressed || !sprint))
+        {
+            animator.SetBool(isRunningHash, false);
+        }
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
     }
